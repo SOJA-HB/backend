@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-referee
+      author: ajeanne
+      changes:
+      - createTable:
+          tableName: referee
+          columns:
+            - column:
+                name: id
+                type: BIGINT
+                constraints:
+                  nullable: false
+                  primaryKey: true
+                  primaryKeyName: referee_pkey
+            - column:
+                name: last_name
+                type: varchar(50)
+                constraints:
+                  nullable: false
+            - column:
+                name: first_name
+                type: varchar(50)
+                constraints:
+                  nullable: false
+            - column:
+                name: category
+                type: varchar(50)
+                constraints:
+                  nullable: false
+            - column:
+                name: gender
+                type: varchar(1)
+                constraints:
+                  nullable: false
