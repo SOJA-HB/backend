@@ -2,6 +2,9 @@ package fr.shewbii.sojahbbackend.security.filter;
 
 import fr.shewbii.sojahbbackend.security.helper.TokenHelper;
 import fr.shewbii.sojahbbackend.service.UserDetailsServiceImpl;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,16 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
+@NoArgsConstructor
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private final UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-    private final TokenHelper tokenHelper;
-
-    public JwtTokenAuthenticationFilter(UserDetailsServiceImpl userDetailsService, TokenHelper tokenHelper) {
-        this.userDetailsService = userDetailsService;
-        this.tokenHelper = tokenHelper;
-    }
+    @Autowired
+    private TokenHelper tokenHelper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

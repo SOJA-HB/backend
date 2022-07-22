@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter () {
+    public JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter() {
         return new JwtTokenAuthenticationFilter();
     }
 
@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(jwtTokenAuthenticationFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/h2-console/**", "/api/login", "/api/any/message/").permitAll()
+                .antMatchers("/h2-console/**", "/login", "/actuator/**").permitAll()
                 .anyRequest().authenticated();
     }
 }

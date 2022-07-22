@@ -1,5 +1,6 @@
 package fr.shewbii.sojahbbackend.security.helper;
 
+import fr.shewbii.sojahbbackend.security.model.TokenResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -36,7 +37,7 @@ public class TokenHelper {
 
     //Get username from the token
     public String getUsernameFromToken(String token) throws Exception {
-        String username = null;
+        String username;
 
         try {
             final Claims claims = Jwts.parser().setSigningKey(SIGNING_KEY.getBytes()).parseClaimsJws(token).getBody();
@@ -50,7 +51,7 @@ public class TokenHelper {
 
     //Validate the token if it has expired or not
     public boolean isValidToken(String token) throws Exception {
-        boolean isValid = true;
+        boolean isValid;
         try {
             final Claims claims = Jwts.parser().setSigningKey(SIGNING_KEY.getBytes()).parseClaimsJws(token).getBody();
             isValid = !(claims.getExpiration().before(new Date()));
@@ -63,7 +64,7 @@ public class TokenHelper {
     }
 
     // Generate token for the authenticated user
-    public String generateToken(String username, Collection<GrantedAuthority> authorities) {
+    public TokenResponse generateToken(String username, Collection<GrantedAuthority> authorities) {
         Claims claims = Jwts.claims();
         String roles = authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
         claims.put(AUTH_HEADER_USERNAME, username);
@@ -73,6 +74,6 @@ public class TokenHelper {
 
         String token = Jwts.builder().setClaims(claims).setIssuedAt(new Date()).setExpiration(expiration).signWith(SignatureAlgorithm.HS256, SIGNING_KEY.getBytes()).compact();
 
-        return token;
+        return new TokenResponse().accessToken(token);
     }
 }
